@@ -1,12 +1,12 @@
 {
   "__inputs": [
     {
-      "name": "DS_POSTGRESQL",
-      "label": "PostgreSQL",
+      "name": "DS_MYSQL",
+      "label": "MySQL",
       "description": "",
       "type": "datasource",
-      "pluginId": "postgres",
-      "pluginName": "PostgreSQL"
+      "pluginId": "mysql",
+      "pluginName": "MySQL"
     }
   ],
   "__elements": {},
@@ -19,9 +19,9 @@
     },
     {
       "type": "datasource",
-      "id": "postgres",
-      "name": "PostgreSQL",
-      "version": "1.0.0"
+      "id": "mysql",
+      "name": "MySQL",
+      "version": "1.0.0" 
     },
     {
       "type": "panel",
@@ -55,8 +55,8 @@
   "panels": [
     {
       "datasource": {
-        "type": "postgres",
-        "uid": "${DS_POSTGRESQL}"
+        "type": "mysql",
+        "uid": "${DS_MYSQL}"
       },
       "fieldConfig": {
         "defaults": {
@@ -110,19 +110,19 @@
       "targets": [
         {
           "datasource": {
-            "type": "postgres",
-            "uid": "${DS_POSTGRESQL}"
+            "type": "mysql",
+            "uid": "${DS_MYSQL}"
           },
-          "editorMode": "builder",
+          "editorMode": "code",
           "format": "table",
-          "rawSql": "SELECT \"Рынок KIA\", column_0 FROM \"2023_kia\" LIMIT 50 ",
+          "rawSql": "SELECT \\n  UNIX_TIMESTAMP(recorded_at) AS \\"time\\",\\n  response_time_ms,\\n  error_rate\\nFROM hyphenmon_metrics\\nWHERE $__timeFilter(recorded_at)\\nORDER BY recorded_at ASC\\nLIMIT 50;",
           "refId": "A",
           "sql": {
             "columns": [
               {
                 "parameters": [
                   {
-                    "name": "\"Рынок KIA\"",
+                    "name": "recorded_at",
                     "type": "functionParameter"
                   }
                 ],
@@ -131,7 +131,16 @@
               {
                 "parameters": [
                   {
-                    "name": "column_0",
+                    "name": "response_time_ms",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "parameters": [
+                  {
+                    "name": "error_rate",
                     "type": "functionParameter"
                   }
                 ],
@@ -148,10 +157,10 @@
             ],
             "limit": 50
           },
-          "table": "\"2023_kia\""
+          "table": "hyphenmon_metrics"
         }
       ],
-      "title": "kia",
+      "title": "Hyphenmon Metrics",
       "type": "table"
     }
   ],
@@ -168,7 +177,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "kia",
+  "title": "Monitoring Dashboard (MySQL)",
   "uid": "fd1e6804-5be7-4db5-912c-b0ecd2e8e435",
   "version": 4,
   "weekStart": "",
